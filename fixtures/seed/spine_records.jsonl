@@ -1,0 +1,8 @@
+{"name":"universal_ingest","title":"Global Ingest Adapter Spine","mapping_id":"YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001"}
+{"name":"aal_viz_projection","title":"AAL-Viz Projection Spine","mapping_id":"YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001"}
+{"name":"operator_review_queue","title":"Operator Review Queue","mapping_id":"YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001"}
+{"name":"pse_forecast","title":"PSE Forecast","mapping_id":"YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001"}
+{"name":"memetic_futurecast","title":"Memetic Futurecast","mapping_id":"YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001"}
+{"name":"hollersports_ticket","title":"Hollersports Ticket","mapping_id":"YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001"}
+{"rune_id":"RUNE.YGGDRASIL.DEPENDENCY_SCAN","artifact_id":"yggdrasil_rune_route_binding_matrix_001"}
+{"namespace":"yggdrasil.belief","lane":"belief","pipeline_id":"BELIEF_GRAPH_ENGINE_001"}

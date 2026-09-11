@@ -1,0 +1,14 @@
+{
+  "lane": "SHADOW",
+  "note": "Fixture only. Does not patch Abraxas-v2.0 scripts/shadow/abx_router/.",
+  "rules": [
+    {"id": "R009", "packet": "route_atom", "specialists": ["yggdrasil.topology"]},
+    {"id": "R010", "packet": "unknown_namespace", "specialists": ["yggdrasil.topology"], "result": "NOT_COMPUTABLE"},
+    {"id": "R004", "packet": "forecast_request", "specialists": [], "result": "NOT_COMPUTABLE"}
+  ],
+  "cases": [
+    {"packet": "route_atom", "input": {"namespace": "yggdrasil.ingest"}, "expect_rule": "R009", "expect_route_class": "ingest"},
+    {"packet": "unknown_namespace", "input": {"namespace": "yggdrasil.forecast"}, "expect_rule": "R010", "expect_failure": "UNKNOWN_NODE_GATE"},
+    {"packet": "forecast_request", "input": {"payload_class": "forecast_request"}, "expect_rule": "R004", "expect_failure": "SPECIALIST_LANE_VIOLATION"}
+  ]
+}
