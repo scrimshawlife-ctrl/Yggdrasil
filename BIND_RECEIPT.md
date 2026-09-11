@@ -10,8 +10,8 @@
 | home | RUNTIME_GATE / yggdrasil.runtime_gate |
 | R009 | route_atom → yggdrasil.topology |
 | R010 | unknown_namespace → NOT_COMPUTABLE / UNKNOWN_NODE_GATE |
-| R004 | forecast_request → NOT_COMPUTABLE (unchanged) |
+| R004 | forecast_request → NOT_COMPUTABLE |
 | train | false |
 | Hub | closed |
-| v2.0 record | branch `shadow/yggdrasil-topology-bind-012` @ 6e5da2a |
+| v2.0 main | PR #1139 squash `541b5c1` + index `242eda3` |
 | replaces core/yggdrasil | false |
