@@ -35,6 +35,10 @@ FAMILY_TO_LANE = {
     "RUNTIME_GATE": "runtime_gate",
 }
 
+_SCAN_CLASSES = frozenset(
+    {"dependency", "lane_boundary", "edge_validation", "unknown_node", "none"}
+)
+
 FORECAST_PAYLOADS = {"forecast_request", "settled_forecast"}
 PROMOTE_PAYLOADS = {"promotion_request", "canon_promote"}
 
@@ -67,9 +71,24 @@ def _lane_from_rune(rune_id: Any) -> tuple[str | None, str | None]:
         parts = rid.split(".")
         if len(parts) >= 2 and parts[1] in FAMILY_TO_LANE:
             lane = FAMILY_TO_LANE[parts[1]]
-        if len(parts) >= 3 and parts[1] == "YGGDRASIL":
-            lane = lane or "runtime_gate"
     return lane, scan
+
+
+def _scan_class(candidate: object) -> str:
+    if isinstance(candidate, str) and candidate in _SCAN_CLASSES:
+        return candidate
+    return "none"
+
+
+def _is_bare_yggdrasil(atom: dict[str, Any]) -> bool:
+    """True when a YGGDRASIL rune has no pipeline namespace or claimed lane."""
+    rune_id = atom.get("rune_id")
+    return (
+        isinstance(rune_id, str)
+        and "YGGDRASIL" in rune_id.upper()
+        and not atom.get("namespace")
+        and not atom.get("claimed_lane")
+    )
 
 
 def _refuse(atom: dict[str, Any], failure: str) -> dict[str, Any]:
@@ -121,11 +140,15 @@ def classify(atom: dict[str, Any]) -> dict[str, Any]:
         failure = "LANE_MISMATCH"
     elif len(unique) == 1:
         route_class = unique.pop()
-        scan_class = rune_scan or atom.get("scan_hint") or "none"
-        if scan_class not in {"dependency", "lane_boundary", "edge_validation", "unknown_node", "none"}:
-            scan_class = "none"
+        scan_class = _scan_class(rune_scan or atom.get("scan_hint") or "none")
         integrity = "ALIGNED"
         epistemic = "OBSERVED" if atom.get("corpus_ref") or atom.get("namespace") else "INFERRED"
+        failure = None
+    elif _is_bare_yggdrasil(atom):
+        route_class = "runtime_gate"
+        scan_class = _scan_class(rune_scan or atom.get("scan_hint") or "none")
+        integrity = "ALIGNED"
+        epistemic = "OBSERVED" if atom.get("corpus_ref") else "INFERRED"
         failure = None
     else:
         route_class = "unknown"

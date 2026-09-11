@@ -16,4 +16,5 @@ Rules:
 - `pse_forecast` and `memetic_futurecast` are R004.
 - `familiar_ingestion` has no route file and is name-mapped to ingest. Gold is R009. Tag `route_file_observed=false`.
 - `neon_genie_ideation` has a route file and is not in `NAME_TO_LANE`. Gold is R010. Tag `route_file_observed=true`. Add a name row to change that.
+- Bare `RUNE.YGGDRASIL.*` maps to `runtime_gate`. When a pipeline already has a lane, YGGDRASIL tokens set scan only.
 - Other no-route pipelines with no name row are R010.
