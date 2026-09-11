@@ -21,3 +21,4 @@
 | Settings Social preview | manual paste of `og-social.jpg` (no API/MCP) |
 | Eval mapping v2 | builder + tests live; committed `eval_mapping_v2.jsonl` is emit stub — run builder/pytest to populate |
 | Eval mapping v2 tests | green after classify YGGDRASIL bare-vs-pipeline lane fix |
+| README | operator front door expanded (stack parity with Athanor) |
