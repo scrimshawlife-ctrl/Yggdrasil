@@ -1,25 +1,25 @@
 from __future__ import annotations
 
-import json
+import importlib.util
 from pathlib import Path
 
 from yggdrasil.adapt import adapt
 from yggdrasil.classify import classify
 
-EVAL = Path(__file__).resolve().parents[1] / "fixtures" / "seed" / "eval_mapping_v2.jsonl"
-FORBIDDEN = {
-    "shadow",
-    "governance",
-    "governance_shadow",
-    "projection",
-    "forecast_gated",
-    "forecast",
-    "scoring",
-}
+BUILDER = Path(__file__).resolve().parents[1] / "fixtures" / "seed" / "build_eval_mapping_v2.py"
+FORBIDDEN = {"shadow", "governance", "governance_shadow", "projection", "forecast_gated", "forecast", "scoring"}
 
 
-def _rows() -> list[dict]:
-    return [json.loads(line) for line in EVAL.read_text().splitlines() if line.strip()]
+def _load_builder():
+    spec = importlib.util.spec_from_file_location("build_eval_mapping_v2", BUILDER)
+    mod = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _rows():
+    return _load_builder().rows()
 
 
 def test_eval_has_pipeline_and_node_grains() -> None:
@@ -53,25 +53,8 @@ def test_neon_genie_is_r010_until_name_row() -> None:
 
 def test_adapt_classify_matches_gold() -> None:
     for row in _rows():
-        atom = adapt(
-            {
-                "payload_class": row["payload_class"],
-                "name": row["name"],
-                "rune_id": row["rune_id"],
-                "claimed_lane": row["claimed_lane"],
-                "corpus_ref": row.get("node_id") or row["name"],
-            }
-        )
-        frame = classify(
-            {
-                "payload_class": atom["payload_class"],
-                "namespace": atom.get("namespace"),
-                "rune_id": atom.get("rune_id"),
-                "claimed_lane": atom.get("claimed_lane"),
-                "scan_hint": atom.get("scan_hint"),
-                "corpus_ref": atom.get("corpus_ref"),
-            }
-        )
+        atom = adapt({"payload_class": row["payload_class"], "name": row["name"], "rune_id": row["rune_id"], "claimed_lane": row["claimed_lane"], "corpus_ref": row.get("node_id") or row["name"]})
+        frame = classify({"payload_class": atom["payload_class"], "namespace": atom.get("namespace"), "rune_id": atom.get("rune_id"), "claimed_lane": atom.get("claimed_lane"), "scan_hint": atom.get("scan_hint"), "corpus_ref": atom.get("corpus_ref")})
         assert frame["route_class"] == row["gold_route_class"], row
         assert frame["scan_class"] == row["gold_scan_class"], row
         assert frame["integrity"] == row["gold_integrity"], row
