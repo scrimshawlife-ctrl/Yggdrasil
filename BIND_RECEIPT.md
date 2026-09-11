@@ -13,9 +13,5 @@
 | R004 | forecast_request → NOT_COMPUTABLE (unchanged) |
 | train | false |
 | Hub | closed |
-| residual | blocked |
+| v2.0 record | branch `shadow/yggdrasil-topology-bind-012` @ 6e5da2a |
 | replaces core/yggdrasil | false |
-
-Notion: Spec 009 `3d83e8ba2f5c816faeb9e351a17ab3e7`
-Notion: Spec 012 `3d83e8ba2f5c81babca4c7f08921f53e`
-Repo: scrimshawlife-ctrl/Yggdrasil
