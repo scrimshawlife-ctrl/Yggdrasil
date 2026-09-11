@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "yggdrasil.route.v0",
+  "title": "yggdrasil.route.v0",
+  "type": "object",
+  "required": ["schema", "route_class", "scan_class", "integrity", "forecast_eligible", "can_promote", "phenomenal", "brier", "epistemic"],
+  "properties": {
+    "schema": { "const": "yggdrasil.route.v0" },
+    "route_class": { "enum": ["ingest", "belief", "replay", "phase", "viz", "situation", "codegen", "runtime_gate", "unknown"] },
+    "scan_class": { "enum": ["dependency", "lane_boundary", "edge_validation", "unknown_node", "none"] },
+    "integrity": { "enum": ["ALIGNED", "SHIFTING", "FRACTURED", "NOT_COMPUTABLE"] },
+    "forecast_eligible": { "const": false },
+    "can_promote": { "const": false },
+    "phenomenal": { "const": false },
+    "brier": { "type": "null" },
+    "epistemic": { "enum": ["OBSERVED", "INFERRED", "SPECULATIVE", "NOT_COMPUTABLE"] },
+    "failure": { "type": ["string", "null"] },
+    "corpus_ref": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}
