@@ -1,0 +1,4 @@
+{"namespace":"yggdrasil.ingest","rune_id":"RUNE.INGEST.HANDOFF_BUILD","claimed_lane":"ingest","corpus_ref":"E-R0-ingest"}
+{"namespace":"yggdrasil.belief","rune_id":"RUNE.BELIEF.MAP_GRAPH","claimed_lane":"belief","corpus_ref":"E-R0-belief"}
+{"rune_id":"RUNE.YGGDRASIL.UNKNOWN_NODE_GATE","corpus_ref":"E-R0-scan"}
+{"payload_class":"forecast_request","namespace":"yggdrasil.phase"}

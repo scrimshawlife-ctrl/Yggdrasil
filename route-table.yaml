@@ -1,0 +1,30 @@
+# SHADOW proposal only. Does not mutate Spec 009 live table.
+# Bind requires an operator sentence.
+
+version: 0
+lane: SHADOW
+specialist: yggdrasil.topology
+packet: yggdrasil.route.v0
+tier1: RUNTIME_GATE
+yggdrasil_home: yggdrasil.runtime_gate
+name_gate: false
+forecast_eligible: false
+can_promote: false
+
+rules:
+  - id: R009
+    packet: route_atom
+    specialists: [yggdrasil.topology]
+    allow: [route_class, scan_class, integrity, unknown_node]
+    deny: [promotion, forecast, learned_residual]
+  - id: R010
+    packet: unknown_namespace
+    specialists: [yggdrasil.topology]
+    result: NOT_COMPUTABLE
+    scan_class: unknown_node
+    failure: UNKNOWN_NODE_GATE
+  - id: R004
+    packet: forecast_request
+    specialists: []
+    result: NOT_COMPUTABLE
+    note: unchanged from Spec 009

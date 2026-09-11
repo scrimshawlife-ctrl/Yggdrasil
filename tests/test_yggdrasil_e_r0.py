@@ -54,6 +54,19 @@ def test_scan_rune():
     assert frame["forecast_eligible"] is False
 
 
+def test_edge_validation_scan():
+    frame = classify({"rune_id": "RUNE.YGGDRASIL.EDGE_VALIDATION"})
+    assert frame["scan_class"] == "edge_validation"
+    assert frame["route_class"] == "runtime_gate"
+
+
+def test_situation_lane():
+    frame = classify({"namespace": "yggdrasil.situation", "claimed_lane": "situation"})
+    assert frame["route_class"] == "situation"
+    assert frame["integrity"] == "ALIGNED"
+    assert frame["can_promote"] is False
+
+
 def test_empty_not_computable():
     frame = classify({})
     assert frame["failure"] == "NOT_COMPUTABLE"

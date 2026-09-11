@@ -9,6 +9,8 @@
 | Spec 000 spine | specified |
 | Spec 001 route classifier T0 | specified + code |
 | Spec 002 spine adapt | specified only |
+| Spec 003 export | specified + `compat.py` |
+| SHADOW route-table.yaml | proposal only |
 | Encoder | name_gate **false** |
 | Hub | closed |
 | Spec 009 router bind | pending operator sentence |

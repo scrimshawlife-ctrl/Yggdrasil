@@ -1,0 +1,13 @@
+{
+  "schema": "yggdrasil.route.v0",
+  "route_class": "unknown",
+  "scan_class": "unknown_node",
+  "integrity": "NOT_COMPUTABLE",
+  "forecast_eligible": false,
+  "can_promote": false,
+  "phenomenal": false,
+  "brier": null,
+  "epistemic": "NOT_COMPUTABLE",
+  "failure": "UNKNOWN_NODE_GATE",
+  "corpus_ref": null
+}
