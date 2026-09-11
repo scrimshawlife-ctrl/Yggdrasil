@@ -1,5 +1,6 @@
-# SHADOW proposal only. Does not mutate Spec 009 live table.
-# Bind requires an operator sentence.
+# Bound on Spec 009 2026-09-11 by operator sentence.
+# Packet yggdrasil.route.v0. Home RUNTIME_GATE.
+# No train. No Hub.
 
 version: 0
 lane: SHADOW

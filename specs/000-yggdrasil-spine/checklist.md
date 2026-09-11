@@ -5,5 +5,5 @@
 - [x] Does not replace `core/yggdrasil/`
 - [x] Packet name frozen
 - [x] Forecast / promotion denied
-- [ ] Spec 009 router bind (operator sentence)
-- [ ] Encoder still name-gated
+- [x] Spec 009 router bind (operator sentence 2026-09-11)
+- [x] Encoder still name-gated
