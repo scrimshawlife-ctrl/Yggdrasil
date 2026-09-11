@@ -11,24 +11,33 @@ Named for the world tree: namespaces, edges, and gates. This repo classifies top
 | **Shape** | T0 rules now. Encoder name-gated. Not a chatbot. |
 | **Anti** | promotion · forecast mint · chat trunk · Hyperlex form · Athanor family · Semion triad · settled Brier |
 | **Lane** | SHADOW — classify live · train/Hub gated |
+| **Router** | Spec 009 R009 / R010. Forecast stays R004 `NOT_COMPUTABLE`. |
 
 Live spine code stays in `scrimshawlife-ctrl/Abraxas-v2.0` `core/yggdrasil/`. This specialist does not hard-import that tree.
+Bind record on v2.0 main: `specs/012-yggdrasil-topology/BIND.md` (PR #1139).
 
 ## Quick links
 
 | Doc | Path |
 |-----|------|
 | Status | [`STATUS.md`](STATUS.md) |
-| Constitution | [`.specify/memory/constitution.md`](.specify/memory/constitution.md) |
+| Bind receipt | [`BIND_RECEIPT.md`](BIND_RECEIPT.md) |
+| Constitution | [`constitution.md`](constitution.md) |
 | Spec 000 spine | [`specs/000-yggdrasil-spine/spec.md`](specs/000-yggdrasil-spine/spec.md) |
 | Spec 001 classifier | [`specs/001-route-classifier/spec.md`](specs/001-route-classifier/spec.md) |
+| Spec 002 adapt | [`specs/002-spine-adapt/spec.md`](specs/002-spine-adapt/spec.md) |
+| Spec 004 dispatch | [`specs/004-shadow-dispatch/spec.md`](specs/004-shadow-dispatch/spec.md) |
 | Model card | [`MODEL_CARD.md`](MODEL_CARD.md) |
+| Contributing | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
+| Security | [`SECURITY.md`](SECURITY.md) |
 
-## Install and classify
+## Install and run
 
 ```bash
 pip install -e ".[dev]"
 python -m yggdrasil --version
-python -m yggdrasil classify '{"namespace":"yggdrasil.ingest","rune_id":"RUNE.INGEST.HANDOFF_BUILD"}'
+python -m yggdrasil classify '{"namespace":"yggdrasil.ingest"}'
+python -m yggdrasil adapt '{"name":"universal_ingest"}'
+python -m yggdrasil dispatch '{"namespace":"yggdrasil.ingest"}'
 pytest -q
 ```
