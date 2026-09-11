@@ -1,2 +1,2 @@
-# generated — do not edit
-# run: python fixtures/seed/build_eval_mapping_v2.py
+# emitted by fixtures/seed/build_eval_mapping_v2.py or pytest
+# PYTHONPATH=src python fixtures/seed/build_eval_mapping_v2.py
