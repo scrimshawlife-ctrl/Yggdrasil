@@ -1,27 +1,24 @@
 #!/usr/bin/env python3
-"""Build fixtures/seed/eval_mapping_v2.jsonl from compact tables.
+"""Build fixtures/seed/eval_mapping_v2.jsonl from live route tables.
 
 v2.0 node.lane is never gold route_class.
+NAME_TO_LANE comes from yggdrasil.adapt.
 """
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
-NAME_TO_LANE = {
-    "universal_ingest": "ingest",
-    "familiar_ingestion": "ingest",
-    "research_intake": "ingest",
-    "oracle_signal": "ingest",
-    "aal_viz_projection": "viz",
-    "operator_review_queue": "runtime_gate",
-    "drift_scan": "runtime_gate",
-    "v2_hygiene": "runtime_gate",
-    "canon_sync": "runtime_gate",
-    "alembic_spine": "codegen",
-}
-FORECAST = {"pse_forecast", "memetic_futurecast"}
-PARTIAL = [
+ROOT = Path(__file__).resolve().parents[2]
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+from yggdrasil.adapt import FORECAST_NAMES, NAME_TO_LANE  # noqa: E402
+
+FORECAST_PIPELINES = {"pse_forecast", "memetic_futurecast"}
+NO_ROUTE = [
     "beatoven_psyfi_integration",
     "familiar_ingestion",
     "hollersports_ticket",
@@ -49,7 +46,7 @@ SCAN = {"DEPENDENCY_SCAN": "dependency", "LANE_BOUNDARY_SCAN": "lane_boundary", 
 
 
 def gold(name: str, rune_id: str | None) -> dict:
-    if name in FORECAST:
+    if name in FORECAST_PIPELINES or name in FORECAST_NAMES:
         return {"gold_route_class": "unknown", "gold_scan_class": "none", "gold_integrity": "NOT_COMPUTABLE", "gold_failure": "SPECIALIST_LANE_VIOLATION", "gold_rule": "R004"}
     scan = None
     if rune_id:
@@ -63,17 +60,26 @@ def gold(name: str, rune_id: str | None) -> dict:
     return {"gold_route_class": "unknown", "gold_scan_class": scan or "unknown_node", "gold_integrity": "NOT_COMPUTABLE", "gold_failure": "UNKNOWN_NODE_GATE", "gold_rule": "R010"}
 
 
+def _meta(pid: str) -> dict:
+    return {
+        "name_mapped": pid in NAME_TO_LANE,
+        "route_file_observed": pid in NODES,
+        "inherit_pipeline_lane": True,
+        "v2_node_lane_is_not_route_class": True,
+    }
+
+
 def rows() -> list[dict]:
     out: list[dict] = []
-    for pid in list(NODES) + PARTIAL:
+    for pid in list(NODES) + NO_ROUTE:
         g = gold(pid, None)
-        out.append({"source": "YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001", "grain": "pipeline", "payload_class": "forecast_request" if pid in FORECAST else "route_atom", "name": pid, "namespace": None, "rune_id": None, "claimed_lane": NAME_TO_LANE.get(pid), "node_id": None, "v2_node_lane_is_not_route_class": True, **g})
+        out.append({"source": "YGGDRASIL_ROUTE_NAMESPACE_MAPPING_001", "grain": "pipeline", "payload_class": "forecast_request" if pid in FORECAST_PIPELINES else "route_atom", "name": pid, "namespace": None, "rune_id": None, "claimed_lane": NAME_TO_LANE.get(pid), "node_id": None, **_meta(pid), **g})
     for pid, nodes in NODES.items():
         for spec in nodes:
             node_id, _, rune = spec.partition("|")
             rune_id = rune or None
             g = gold(pid, rune_id)
-            out.append({"source": f"contracts/yggdrasil/routes/{pid}.route.v1.json", "grain": "node", "payload_class": "forecast_request" if pid in FORECAST else "route_atom", "name": pid, "namespace": None, "rune_id": rune_id, "claimed_lane": NAME_TO_LANE.get(pid), "node_id": node_id, "v2_node_lane_is_not_route_class": True, **g})
+            out.append({"source": f"contracts/yggdrasil/routes/{pid}.route.v1.json", "grain": "node", "payload_class": "forecast_request" if pid in FORECAST_PIPELINES else "route_atom", "name": pid, "namespace": None, "rune_id": rune_id, "claimed_lane": NAME_TO_LANE.get(pid), "node_id": node_id, **_meta(pid), **g})
     return out
 
 

@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 
-from yggdrasil.adapt import adapt
+from yggdrasil.adapt import NAME_TO_LANE, adapt
 from yggdrasil.classify import classify
 
-BUILDER = Path(__file__).resolve().parents[1] / "fixtures" / "seed" / "build_eval_mapping_v2.py"
+SEED = Path(__file__).resolve().parents[1] / "fixtures" / "seed"
+BUILDER = SEED / "build_eval_mapping_v2.py"
+JSONL = SEED / "eval_mapping_v2.jsonl"
 FORBIDDEN = {"shadow", "governance", "governance_shadow", "projection", "forecast_gated", "forecast", "scoring"}
 
 
@@ -19,7 +22,14 @@ def _load_builder():
 
 
 def _rows():
-    return _load_builder().rows()
+    mod = _load_builder()
+    mod.write(JSONL)
+    return mod.rows()
+
+
+def test_builder_uses_adapt_name_map() -> None:
+    mod = _load_builder()
+    assert mod.NAME_TO_LANE is NAME_TO_LANE
 
 
 def test_eval_has_pipeline_and_node_grains() -> None:
@@ -27,11 +37,14 @@ def test_eval_has_pipeline_and_node_grains() -> None:
     assert len(rows) == 106
     assert sum(1 for r in rows if r["grain"] == "pipeline") == 20
     assert sum(1 for r in rows if r["grain"] == "node") == 86
+    written = [json.loads(line) for line in JSONL.read_text().splitlines() if line.strip()]
+    assert len(written) == 106
 
 
 def test_gold_never_uses_v2_node_lane() -> None:
     for row in _rows():
         assert row["v2_node_lane_is_not_route_class"] is True
+        assert row["inherit_pipeline_lane"] is True
         assert row["gold_route_class"] not in FORBIDDEN
         claimed = row.get("claimed_lane")
         if claimed is not None:
@@ -45,9 +58,22 @@ def test_forecast_rows_are_r004() -> None:
     assert all(r["payload_class"] == "forecast_request" for r in rows)
 
 
-def test_neon_genie_is_r010_until_name_row() -> None:
+def test_familiar_ingestion_is_name_mapped_without_route() -> None:
+    rows = [r for r in _rows() if r["name"] == "familiar_ingestion"]
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["grain"] == "pipeline"
+    assert row["route_file_observed"] is False
+    assert row["name_mapped"] is True
+    assert row["gold_rule"] == "R009"
+    assert row["gold_route_class"] == "ingest"
+
+
+def test_neon_genie_has_route_file_and_stays_r010() -> None:
     rows = [r for r in _rows() if r["name"] == "neon_genie_ideation"]
     assert rows
+    assert all(r["route_file_observed"] is True for r in rows)
+    assert all(r["name_mapped"] is False for r in rows)
     assert all(r["gold_rule"] == "R010" for r in rows)
 
 
