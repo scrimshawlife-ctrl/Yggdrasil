@@ -10,8 +10,10 @@
 | Spec 001 route classifier T0 | specified + code |
 | Spec 002 spine adapt | specified + `adapt.py` |
 | Spec 003 export | specified + `compat.py` |
-| route-table.yaml | bound on Spec 009 2026-09-11 |
+| Spec 004 shadow dispatch | specified + `dispatch.py` |
+| scripts/shadow | specialist-local (Hyperlex pattern) |
 | Encoder | name_gate **false** |
 | Hub | closed |
 | Spec 009 router bind | flipped (R009 / R010) |
 | Replaces Abraxas-v2.0 `core/yggdrasil/` | false |
+| Legacy Abraxas `scripts/shadow/abx_router` | absent |

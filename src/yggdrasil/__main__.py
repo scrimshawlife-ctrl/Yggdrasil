@@ -7,6 +7,7 @@ import sys
 from yggdrasil import __version__
 from yggdrasil.adapt import adapt
 from yggdrasil.classify import classify
+from yggdrasil.dispatch import dispatch
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -17,6 +18,8 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("atom", help="route atom JSON")
     a = sub.add_parser("adapt")
     a.add_argument("record", help="spine record JSON")
+    d = sub.add_parser("dispatch")
+    d.add_argument("request", help="router request JSON")
     args = parser.parse_args(argv)
     if args.version:
         print(__version__)
@@ -30,6 +33,10 @@ def main(argv: list[str] | None = None) -> int:
         record = json.loads(args.record)
         atom = adapt(record)
         json.dump(classify(atom), sys.stdout, indent=2, sort_keys=True)
+        sys.stdout.write("\n")
+        return 0
+    if args.cmd == "dispatch":
+        json.dump(dispatch(json.loads(args.request)), sys.stdout, indent=2, sort_keys=True)
         sys.stdout.write("\n")
         return 0
     parser.print_help()
