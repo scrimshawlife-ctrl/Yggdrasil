@@ -15,6 +15,28 @@ FOREIGN = {
     "settled_forecast": ("R004B", ["abx.brier"]),
 }
 
+# Spec 013 / 013A. Classify only. Geometry stays in Sigil-Forge.
+CONSTRUCT = {
+    "construct_atom": ("R011", ["sigil.forge.construct"], "FOREIGN_SPECIALIST"),
+    "intent_glyph": ("R011", ["sigil.forge.construct"], "FOREIGN_SPECIALIST"),
+    "sigil_request": ("R011", ["sigil.forge.construct"], "FOREIGN_SPECIALIST"),
+    "mixed_tradition_construct": (
+        "R011B",
+        ["athanor.structure", "sigil.forge.construct"],
+        "CHAIN",
+    ),
+    "mixed_sign_construct": (
+        "R011C",
+        ["semion.triad", "sigil.forge.construct"],
+        "CHAIN",
+    ),
+    "noctis_sig": (
+        "R011D",
+        ["noctis.interpret", "sigil.forge.construct"],
+        "CHAIN",
+    ),
+}
+
 
 def _packet_class(req: dict[str, Any]) -> str:
     explicit = req.get("packet") or req.get("payload_class")
@@ -44,6 +66,19 @@ def dispatch(req: dict[str, Any]) -> dict[str, Any]:
             "result": "NOT_COMPUTABLE",
             "failure": "SPECIALIST_LANE_VIOLATION",
             "forecast_eligible": False,
+            "frame": None,
+        }
+
+    if packet in CONSTRUCT:
+        rule, specs, result = CONSTRUCT[packet]
+        return {
+            "rule": rule,
+            "packet": packet,
+            "specialists": specs,
+            "result": result,
+            "failure": None,
+            "forecast_eligible": False,
+            "home": "yggdrasil.viz",
             "frame": None,
         }
 
