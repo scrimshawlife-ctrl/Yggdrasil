@@ -1,0 +1,131 @@
+{
+  "schema": "jev.evaluate.v0.job",
+  "lane": "SHADOW",
+  "runner": "grokbot",
+  "key_source_expected": "box-secrets.card.AI_GATEWAY_API_KEY",
+  "do_not_print_key": true,
+  "integrity_written": false,
+  "model_gateway": "typesafe-ai/jev",
+  "model_typesafe": "jev-latest",
+  "gateway": {
+    "url": "https://ai-gateway.vercel.sh/v1/evaluate",
+    "zeroDataRetention": true
+  },
+  "typesafe": {
+    "url": "https://api.typesafe.ai/v1/systemone"
+  },
+  "policy": {
+    "suas_noul_drop": 0.5,
+    "promote_noul_veto": 0.3,
+    "forecast_noul_veto": 0.5,
+    "auto_confidence": 0.85,
+    "review_confidence": 0.5
+  },
+  "packet_to_rule": {
+    "route_atom": "R009",
+    "unknown_namespace": "R010",
+    "forecast_request": "R004",
+    "construct_atom": "R011",
+    "intent_glyph": "R011",
+    "sigil_request": "R011",
+    "mixed_tradition_construct": "R011B",
+    "mixed_sign_construct": "R011C",
+    "noctis_sig": "R011D",
+    "slang_atom": "R001",
+    "tradition_atom": "R002",
+    "sign_atom": "R006",
+    "corpus_atom": "R006B",
+    "settled_forecast": "R004B",
+    "other": "R999"
+  },
+  "questions_typesafe": {
+    "packet_class": {
+      "type": "choice",
+      "instructions": "Abraxas packet class for this state. Prefer an explicit packet or payload_class field if present. forecast_request if the state asks for a future outcome. settled_forecast only if a resolving outcome already exists. other if none of the listed classes fit.",
+      "criteria": {
+        "route_atom": null,
+        "construct_atom": null,
+        "intent_glyph": null,
+        "sigil_request": null,
+        "mixed_tradition_construct": null,
+        "mixed_sign_construct": null,
+        "slang_atom": null,
+        "tradition_atom": null,
+        "sign_atom": null,
+        "corpus_atom": null,
+        "settled_forecast": null,
+        "forecast_request": null,
+        "unknown_namespace": null,
+        "noctis_sig": null,
+        "other": null
+      }
+    },
+    "specialist": {
+      "type": "choice",
+      "instructions": "Home specialist for this packet. forecast_request must be drop or operator. Never send forecast work to a specialist.",
+      "criteria": {
+        "yggdrasil.topology": null,
+        "sigil.forge.construct": null,
+        "athanor.structure": null,
+        "semion.triad": null,
+        "hyperlex.hyperlexical": null,
+        "abx.brier": null,
+        "neon.genie": null,
+        "hollersports.shadow": null,
+        "noesis.eval": null,
+        "operator": null,
+        "drop": null
+      }
+    },
+    "forecast_eligible": {
+      "type": "noul",
+      "instructions": "True only if this state is a forecast request."
+    },
+    "can_promote": {
+      "type": "noul",
+      "instructions": "True if the payload asks to promote SHADOW output into canon."
+    },
+    "suas_lane": {
+      "type": "noul",
+      "instructions": "True if this is SUAS content. If true, drop from FAMILIAR forage."
+    },
+    "evidence_class": {
+      "type": "choice",
+      "instructions": "Epistemic class of the state itself.",
+      "criteria": {
+        "OBSERVED": null,
+        "INFERRED": null,
+        "SPECULATIVE": null,
+        "NOT_COMPUTABLE": null
+      }
+    },
+    "hold_score": {
+      "type": "score",
+      "instructions": "How hard should this be held for an operator.",
+      "criteria": ["auto-dispatch", "review", "operator-hold"]
+    }
+  },
+  "cases": [
+    {"id": "d0-r009-ingest", "gold_packet": "route_atom", "gold_rule": "R009", "state": "Route atom. namespace yggdrasil.ingest. No packet field. Topology home."},
+    {"id": "d0-r010-unknown", "gold_packet": "unknown_namespace", "gold_rule": "R010", "state": "Namespace yggdrasil.forecast. Not a frozen lane. Unknown node."},
+    {"id": "d0-r004-explicit", "gold_packet": "forecast_request", "gold_rule": "R004", "expect_forecast_veto": true, "state": "Explicit packet forecast_request. Asking for a future NBA close."},
+    {"id": "d0-r004-name-tail", "gold_packet": "forecast_request", "gold_rule": "R004", "expect_forecast_veto": true, "state": "Name field is pse_forecast. No packet class."},
+    {"id": "d0-slang", "gold_packet": "slang_atom", "gold_rule": "R001", "state": "Slang atom from Hyperlex forage. Circulating catchphrase. Not a forecast."},
+    {"id": "d0-settled", "gold_packet": "settled_forecast", "gold_rule": "R004B", "state": "Settled forecast with a resolving outcome already recorded. Send to Brier home."},
+    {"id": "r011-construct", "gold_packet": "construct_atom", "gold_rule": "R011", "state": "Construct atom. Intent to forge a sigil. No geometry in this packet."},
+    {"id": "r011b-tradition", "gold_packet": "mixed_tradition_construct", "gold_rule": "R011B", "state": "Mixed tradition construct. Needs Athanor structure then Sigil-Forge."},
+    {"id": "r011c-sign", "gold_packet": "mixed_sign_construct", "gold_rule": "R011C", "state": "Mixed sign construct. Semion triad then Sigil-Forge."},
+    {"id": "r011d-noctis", "gold_packet": "noctis_sig", "gold_rule": "R011D", "state": "noctis_sig packet. Interpret then construct."},
+    {"id": "promote-hold", "gold_packet": "route_atom", "gold_rule": "REJECT_OR_SHADOW", "expect_promote_hold": true, "state": "Operator asks to promote this SHADOW route table into canon."},
+    {"id": "suas-drop", "gold_packet": "other", "gold_rule": "R999", "expect_suas_drop": true, "state": "SUAS spec fragment. Keep out of FAMILIAR slang forage."},
+    {"id": "unlabeled-other", "gold_packet": "other", "gold_rule": "R999", "state": "A grocery list and a weather note. No Abraxas fields."}
+  ],
+  "apply_policy": [
+    "if suas_lane noul >= 0.50 then packet=other rule=R999 specialists=[drop] band=hold",
+    "else if can_promote noul >= 0.30 then rule=REJECT_OR_SHADOW specialists=[operator] band=hold",
+    "else if forecast_eligible noul >= 0.50 or packet_class == forecast_request then packet=forecast_request rule=R004 specialists=[] band=auto",
+    "else packet=packet_class.choice rule=packet_to_rule[packet] band=auto if confidence>=0.85 else review if confidence>=0.50 else hold"
+  ],
+  "receipt_schema": "jev.evaluate.v0.live",
+  "forbid": ["print key", "write integrity", "merge Yggdrasil main", "invent gold", "SUAS forage"]
+}
