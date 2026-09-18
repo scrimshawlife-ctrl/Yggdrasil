@@ -1,7 +1,7 @@
 # STATUS
 
 **Lane**: SHADOW
-**Date**: 2026-09-11
+**Date**: 2026-09-18
 **Version**: 0.1.0
 
 | Gate | State |
@@ -10,7 +10,7 @@
 | Spec 001 route classifier T0 | specified + code |
 | Spec 002 spine adapt | specified + `adapt.py` |
 | Spec 003 export | specified + `compat.py` |
-| Spec 004 shadow dispatch | specified + `dispatch.py` |
+| Spec 004 shadow dispatch | specified + `dispatch.py` (R011 construct classify) |
 | scripts/shadow | specialist-local (Hyperlex pattern) |
 | Encoder | name_gate **false** |
 | Hub | closed |
@@ -21,4 +21,6 @@
 | Settings Social preview | manual paste of `og-social.jpg` (no API/MCP) |
 | Eval mapping v2 | builder + tests live; committed `eval_mapping_v2.jsonl` is emit stub — run builder/pytest to populate |
 | Eval mapping v2 tests | green after classify YGGDRASIL bare-vs-pipeline lane fix |
+| Tests | 35 passed (`pytest -q tests/`) |
+| R011 construct classify | shipped in dispatch; no Sigil-Forge import; no geometry |
 | README | operator front door expanded (stack parity with Athanor) |

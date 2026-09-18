@@ -15,7 +15,7 @@ Named for the world tree: namespaces, edges, and gates. This repo **classifies t
 | **Shape** | Spec 001–004 **T0 rules live**. Encoder `name_gate` **false**. Not a chatbot. |
 | **Anti** | promotion · forecast mint · chat trunk · Hyperlex form · Athanor family · Semion triad · settled Brier |
 | **Lane** | SHADOW — classify live · **no train weights at T0** · Hub closed |
-| **Router** | Spec 009 R009 / R010. Forecast stays R004 `NOT_COMPUTABLE`. |
+| **Router** | Spec 009 R009 / R010. Dispatch also classifies R011 construct packets (no Sigil-Forge import). Forecast stays R004 `NOT_COMPUTABLE`. |
 | **Version** | `0.1.0` (see [`STATUS.md`](STATUS.md)) |
 
 ## What ships / what does not
@@ -29,17 +29,18 @@ Named for the world tree: namespaces, edges, and gates. This repo **classifies t
 
 **Train?** Not for the current job. Yggdrasil is a deterministic route classifier. Eval gold checks classify honesty; it is not a training corpus. A learned router would be a later product decision.
 
-## Current state (OBSERVED 2026-09-11 PT)
+## Current state (OBSERVED 2026-09-18)
 
 | Area | State |
 |------|-------|
 | Spec 000–004 | Specified + code |
 | Encoder | `name_gate` **false** |
 | Hub | closed |
-| Spec 009 router bind | flipped (R009 / R010) |
+| Spec 009 router bind | flipped (R009 / R010) on Abraxas-v2.0 |
+| R011 construct classify | shipped in this repo's dispatch; no Sigil-Forge import |
 | Replaces Abraxas-v2.0 `core/yggdrasil/` | **false** |
 | Eval mapping v2 | builder + tests; committed file is emit stub |
-| Eval tests | **28 passed** after YGGDRASIL bare-vs-pipeline lane fix |
+| Tests | **35 passed** (`pytest -q tests/`) |
 | When built | **106** rows (20 pipeline / 86 node) · R009/R010/R004 |
 
 Live spine code stays in `scrimshawlife-ctrl/Abraxas-v2.0` `core/yggdrasil/`. This specialist does not hard-import that tree.
