@@ -2,7 +2,7 @@
 
 SHADOW / advisory only. No Abraxas import. No train. No Hub.
 
-`yggdrasil` is Spec 012. Router rules R009 / R010 / R004 live in `src/yggdrasil/dispatch.py`.
+`yggdrasil` is Spec 012. Router rules R009 / R010 / R004 / R011 live in `src/yggdrasil/dispatch.py`.
 
 ```
 PYTHONPATH=src python3 -m yggdrasil dispatch '{"namespace":"yggdrasil.ingest"}'
